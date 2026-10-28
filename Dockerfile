@@ -11,4 +11,4 @@ COPY --from=build /leaderboard /usr/local/bin/leaderboard
 ENV LISTEN_ADDR=:8080
 EXPOSE 8080
 USER app
-CMD ["leaderboard"]
+ENTRYPOINT ["leaderboard"]

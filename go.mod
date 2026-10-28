@@ -1,5 +1,3 @@
-module test
+module github.com/njchak/Leaderboard-Service
 
-go 1.27.1
-
-require golang.org/x/tour v0.1.0
+go 1.27
