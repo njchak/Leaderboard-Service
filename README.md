@@ -72,4 +72,22 @@ Returns the top N players on the leaderboard. N must be greater or equal to 1, a
     }
 ]
 ```
+## Design decisions
+
+- **Ranking:** Competition ranking, ties share a rank and next number is skipped [See above example]. 
+- **Top-n and ties:** Return exactly n entries with rank. In the edge case of multiple ties where there are more than n players with a rank above n, we still return n players for simplicity.
+- **Tie order:** Ties are decided by names in alphabetical order, so every leaderboard is consistent.
+- **Storage behind an interface:** Each storage method sits behind an interface with the 3 endpoints as methods. Currently using an in-memory map, but can be built out for other storage methods (i.e. Redis)
+- **Concurrency:** Use RWMutex to handle reads and writes to the map, addToScore uses Lock to write to map while top-N / rank endpoints use RLock to read data only.
+
+## Known limitations
+
+- In-memory implementation, data is lost on restart.
+- Rank / Top-N sort data on each call, so at scale this would need to be re-worked to keep the data sorted to avoid computational overload
+- No authentication used for this API
+
+## Next steps
+
+- Redis implementation behind the existing interface that uses a sorted set for more efficient reads / writes
+- More fields on Player struct
 
